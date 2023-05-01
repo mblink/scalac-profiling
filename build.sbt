@@ -52,6 +52,7 @@ lazy val profiledb = project
   .in(file("profiledb"))
   //.settings(metalsSettings)
   .settings(
+    gitPublishDir := file("/src/maven-repo"),
     // Specify scala version to allow third-party software to use this module
     crossScalaVersions := bin212 ++ bin213,
     // scalaVersion := "2.12.12",
@@ -63,9 +64,11 @@ lazy val profiledb = project
 // Do not change the lhs id of this plugin, `BuildPlugin` relies on it
 lazy val plugin = project
   .dependsOn(profiledb)
+  .aggregate(profiledb)
   //.settings(metalsSettings)
   .settings(
     fullCrossVersionSettings,
+    gitPublishDir := file("/src/maven-repo"),
     name := "scalac-profiling",
     libraryDependencies ++= List(
       "com.lihaoyi" %% "pprint" % "0.5.7",
